@@ -13,7 +13,7 @@ ASFLAGS := -m64 -g -Iinclude
 LDFLAGS := -nostdlib -static -z max-page-size=0x1000 -z noexecstack -T linker.ld
 
 C_SRCS := $(wildcard arch/x86_64/*.c) $(wildcard drivers/*.c) $(wildcard kernel/*.c) \
-          $(wildcard mm/*.c) $(wildcard lib/*.c)
+          $(wildcard mm/*.c) $(wildcard lib/*.c) $(wildcard comm/*.c)
 S_SRCS := boot/boot.S arch/x86_64/isr.S
 OBJS   := $(patsubst %.c,$(BUILD)/%.o,$(C_SRCS)) $(patsubst %.S,$(BUILD)/%.o,$(S_SRCS))
 

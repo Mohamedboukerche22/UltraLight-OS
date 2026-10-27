@@ -23,6 +23,12 @@ SECTIONS
 
     _rodata_start = .;
     .rodata : { *(.rodata .rodata.*) } :rodata
+    /* Shell commands self-register into this section via COMMAND(). */
+    .comm_commands : {
+        __comm_start = .;
+        KEEP(*(.comm_commands))
+        __comm_end = .;
+    } :rodata
     . = ALIGN(4K);
     _rodata_end = .;
 

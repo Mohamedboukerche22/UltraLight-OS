@@ -25,11 +25,33 @@ Use `qemu-system-x86_64` (not `-i386`). Build output is never hidden.
 | Kernel shell | `kernel/shell.c` |
 
 ## Shell commands
-`help clear echo uptime mem memtest cpuid keytest sleep peek crash reboot halt`
-(`crash div0|null|ud|wp|panic` deliberately triggers CPU exceptions to test the handlers.)
+`ls help clear echo uptime mem memtest cpuid keytest sleep peek crash reboot halt`
+(`ls [prefix]` lists commands; `help` shows what each one does.
+`crash div0|null|ud|wp|panic` deliberately triggers CPU exceptions to test the handlers.)
+
+## Adding a command
+Commands live in `comm/`, one file per command, and register themselves into a
+linker section. To add one, drop a new `comm/<name>.c` in place:
+
+```c
+#include "comm.h"
+#include "kprintf.h"
+
+static void cmd_hello(int argc, char **argv) {
+    (void)argc; (void)argv;
+    kprintf("hello from comm/hello.c\n");
+}
+COMMAND("hello", "say hello", cmd_hello);
+```
+
+That is the whole wiring: the Makefile wildcard compiles `comm/*.c`, the linker
+collects `.comm_commands`, and `kernel/shell.c` dispatches through the registry.
+No kernel, shell, Makefile or registry edit is needed, so a new command cannot
+break the rest of the kernel.
 
 ## Layout
 ```
-boot/  arch/x86_64/  drivers/  kernel/  mm/  lib/  include/  linker.ld  Makefile  run.sh
+boot/  arch/x86_64/  drivers/  kernel/  mm/  lib/  comm/  include/  linker.ld  Makefile  run.sh
 ```
+
 Next: Phase 3 (PCB, scheduler, syscalls) — TSS/GDT already contain the user segments it needs.
