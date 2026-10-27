@@ -2,7 +2,7 @@
 # UltraLight launcher.   ./run.sh [--serial | --iso | --debug | --clean]
 #   (default)  QEMU window: type in the window (PS/2 keyboard); serial log goes to this terminal
 #   --serial   no window; everything runs in this terminal (Ctrl-A then X quits QEMU)
-#   --iso      build a GRUB (Multiboot2) ISO and boot that instead of qemu -kernel
+#   --iso      build a BIOS ISO with Limine + tools/mkiso.py and boot it
 #   --debug    start paused with a GDB stub on :1234 and an interrupt log in qemu.log
 set -euo pipefail
 cd "$(dirname "$0")"

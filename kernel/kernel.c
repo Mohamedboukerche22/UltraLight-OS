@@ -14,6 +14,7 @@
 #include "vmm.h"
 #include "heap.h"
 #include "panic.h"
+#include "version.h"
 #include "shell.h"
 
 static bootinfo_t bootinfo;
@@ -28,7 +29,7 @@ void kernel_main(uint64_t magic, uint64_t info) {
     serial_init();
     vga_init();
     console_color(VGA_LCYAN);
-    kprintf("UltraLight OS v0.2 (x86_64)\n");
+    kprintf("UltraLight OS v%s (x86_64)\n", UL_VERSION);
     console_color(VGA_LGREY);
     kprintf("---------------------------\n");
 

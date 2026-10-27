@@ -16,6 +16,10 @@ struct mb2_tag { uint32_t type, size; } PACKED;
 struct mb2_mmap_tag { uint32_t type, size, entry_size, entry_version; } PACKED;
 struct mb2_mmap_entry { uint64_t base, length; uint32_t type, reserved; } PACKED;
 
+static const bootinfo_t *boot_info;
+
+const bootinfo_t *multiboot_bootinfo(void) { return boot_info; }
+
 static void copy_cstr(char *dst, size_t cap, const char *src) {
     size_t i = 0;
     for (; src && src[i] && i + 1 < cap; i++) dst[i] = src[i];
@@ -77,4 +81,5 @@ void multiboot_parse(uint32_t magic, uint64_t addr, bootinfo_t *bi) {
     }
 
     if (bi->region_count == 0) panic("bootloader gave no memory map");
+    boot_info = bi;
 }

@@ -19,4 +19,5 @@ typedef struct {
 } bootinfo_t;
 
 void multiboot_parse(uint32_t magic, uint64_t info_addr, bootinfo_t *out);
+const bootinfo_t *multiboot_bootinfo(void);   /* last parsed boot info, or NULL */
 #endif
